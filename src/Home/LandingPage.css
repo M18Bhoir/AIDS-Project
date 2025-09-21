@@ -1,6 +1,6 @@
 .landing-container {
   text-align: center;
-  background: url("../Assets/grass.jpg") no-repeat center center/cover;
+  background: #1a1a1a; /* Dark background color */
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,15 +9,15 @@
 }
 
 .landing-container h1 {
-  color: white;
+  color: #ffffff;
   margin-bottom: 30px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .btn {
-  background-color: #4caf50;
+  background-color: #333; /* Dark button color */
   color: white;
-  padding: 10px 20px;   /* smaller button */
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   margin: 10px;
@@ -25,8 +25,9 @@
   font-size: 16px;
   display: inline-block;
   width: auto;
+  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #45a049;
+  background-color: #555; /* Lighter shade on hover */
 }
