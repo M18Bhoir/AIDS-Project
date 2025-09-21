@@ -1,0 +1,66 @@
+/* Full page green background */
+.credentials-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+/* White box */
+.credentials-box {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 320px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Heading */
+.credentials-box h2 {
+  margin-bottom: 20px;
+  color: #27ae60;
+}
+
+/* Input groups */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #27ae60;
+}
+
+/* Submit button */
+.btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #219150;
+}
