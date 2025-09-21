@@ -1,4 +1,3 @@
-// src/Input/Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Input.css";
@@ -9,6 +8,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,6 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
+    setSuccess(""); // Clear previous success messages
 
     try {
       const response = await fetch("http://127.0.0.1:5000/login", {
@@ -32,8 +33,9 @@ const Login = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert(result.message);
-        navigate("/"); // Navigate to dashboard/home
+        setSuccess(result.message);
+        // Correctly navigate to the CropYield page after a successful login
+       navigate("/CropYield");
       } else {
         setError(result.error);
       }
@@ -78,6 +80,10 @@ const Login = () => {
 
           {error && (
             <p className="text-red-500 text-sm text-center">{error}</p>
+          )}
+
+          {success && (
+            <p className="text-green-500 text-sm text-center">{success}</p>
           )}
 
           <button

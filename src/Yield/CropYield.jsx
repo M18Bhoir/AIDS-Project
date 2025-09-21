@@ -13,6 +13,7 @@ const CropYield = () => {
   });
 
   const [prediction, setPrediction] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,20 +24,44 @@ const CropYield = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null); // Clear previous errors
+
+    // Client-side validation: Check if all fields are filled
+    const { Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp, Area, Item } = formData;
+    if (!Year || !average_rain_fall_mm_per_year || !pesticides_tonnes || !avg_temp || !Area || !Item) {
+        setError("Please fill out all the fields before submitting.");
+        setPrediction(null);
+        return;
+    }
+    
+    // Convert numerical inputs to a number before sending
+    const dataToSend = {
+      Year: Number(Year),
+      average_rain_fall_mm_per_year: Number(average_rain_fall_mm_per_year),
+      pesticides_tonnes: Number(pesticides_tonnes),
+      avg_temp: Number(avg_temp),
+      Area: Area,
+      Item: Item
+    };
 
     try {
-      const response = await fetch("/predict", {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
 
       const data = await response.json();
-      setPrediction(data.prediction);
+      if (response.ok) {
+        setPrediction(data.prediction);
+      } else {
+        setError(data.error);
+      }
     } catch (error) {
       console.error("Error:", error);
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -107,6 +132,12 @@ const CropYield = () => {
               </button>
             </div>
           </form>
+
+          {error && (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          )}
 
           {prediction && (
             <div className="prediction">

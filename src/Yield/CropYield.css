@@ -116,3 +116,11 @@
   font-weight: bold;
   color: #3b82f6; /* blue */
 }
+
+/* Add this to CropYield.css to style the error message */
+.error-message {
+  margin-top: 25px;
+  text-align: center;
+  color: #e53935; /* red color */
+  font-weight: bold;
+}
