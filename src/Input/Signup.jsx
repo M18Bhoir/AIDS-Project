@@ -1,3 +1,4 @@
+// src/Input/Signup.jsx
 import React, { useState } from "react";
 import './Input.css';
 import { useNavigate } from "react-router-dom";
@@ -45,45 +46,47 @@ const Signup = () => {
   };
 
   return (
-    <div className="form-box">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label htmlFor="username">Name</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="userId">User ID</label>
-          <input
-            type="text"
-            id="userId"
-            name="userId"
-            value={formData.userId}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {error && <p className="helper">{error}</p>}
-        <button type="submit">Signup</button>
-      </form>
+    <div className="credentials-container">
+      <div className="credentials-box">
+        <h2>Signup</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="username">Name</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="userId">User ID</label>
+            <input
+              type="text"
+              id="userId"
+              name="userId"
+              value={formData.userId}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          {error && <p className="helper">{error}</p>}
+          <button type="submit" className="btn">Signup</button>
+        </form>
+      </div>
     </div>
   );
 };

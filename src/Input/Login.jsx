@@ -1,5 +1,7 @@
+// src/Input/Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Input.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -42,13 +44,12 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="w-full max-w-md bg-gray-800 p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-white mb-6">Login</h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* User ID */}
-          <div>
-            <label htmlFor="userId" className="block text-sm text-gray-300 mb-1">
+    <div className="credentials-container">
+      <div className="credentials-box">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="userId">
               User ID
             </label>
             <input
@@ -58,13 +59,11 @@ const Login = () => {
               value={formData.userId}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Password */}
-          <div>
-            <label htmlFor="password" className="block text-sm text-gray-300 mb-1">
+          <div className="input-group">
+            <label htmlFor="password">
               Password
             </label>
             <input
@@ -74,19 +73,16 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Error */}
           {error && (
             <p className="text-red-500 text-sm text-center">{error}</p>
           )}
 
-          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-semibold transition duration-300"
+            className="btn"
           >
             Login
           </button>
