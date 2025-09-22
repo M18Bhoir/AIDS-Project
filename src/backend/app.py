@@ -9,6 +9,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import joblib
+import pandas as pd
 
 print("scikit-learn version:", sklearn.__version__)
 
@@ -108,9 +109,8 @@ def login():
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
-# -------------------------------
-# Prediction API
-# -------------------------------
+
+
 # -------------------------------
 # Prediction API
 # -------------------------------
@@ -121,51 +121,46 @@ def predict():
 
     data = request.get_json()
 
-    # Define the fields and their required types
-    fields_to_check = {
-        "Year": float,
-        "average_rain_fall_mm_per_year": float,
-        "pesticides_tonnes": float,
-        "avg_temp": float,
-        "Area": str,
-        "Item": str
-    }
-
-    # Prepare features, converting empty strings to None for validation
-    features_dict = {}
-    for field, type_hint in fields_to_check.items():
-        value = data.get(field)
-        if value == "":
-            features_dict[field] = None
-        else:
-            features_dict[field] = value
-
-    # Validate for missing or empty fields
-    if any(features_dict[field] is None for field in fields_to_check):
-        return jsonify({"error": "Missing one or more required fields"}), 400
-
     try:
-        # Prepare features for prediction with proper data types
-        features = np.array([[
-            float(features_dict["Year"]),
-            float(features_dict["average_rain_fall_mm_per_year"]),
-            float(features_dict["pesticides_tonnes"]),
-            float(features_dict["avg_temp"]),
-            features_dict["Area"],
-            features_dict["Item"]
-        ]])
+        # Extract numerical inputs
+        Year = float(data.get("Year"))
+        average_rain_fall_mm_per_year = float(
+            data.get("AverageRainfall") or data.get("average_rain_fall_mm_per_year")
+        )
+        pesticides_tonnes = float(
+            data.get("Pesticides") or data.get("pesticides_tonnes")
+        )
+        avg_temp = float(
+            data.get("AverageTemperature") or data.get("avg_temp")
+        )
 
-        # Predict using the loaded pipeline
+        # Extract categorical inputs
+        Area = str(data.get("Area"))
+        Item = str(data.get("Item"))
+
+        if not Area or not Item:
+            return jsonify({"error": "Missing Area or Item"}), 400
+
+        # 👇 Build a DataFrame with the exact column names used during training
+        features = pd.DataFrame([{
+            "Year": Year,
+            "average_rain_fall_mm_per_year": average_rain_fall_mm_per_year,
+            "pesticides_tonnes": pesticides_tonnes,
+            "avg_temp": avg_temp,
+            "Area": Area,
+            "Item": Item
+        }])
+
+        # Predict
         prediction = pipeline.predict(features)[0]
 
-        # Return the prediction as a JSON response
         return jsonify({"prediction": float(prediction)}), 200
 
-    except ValueError:
-        return jsonify({"error": "Invalid data format. Please ensure all numerical inputs are valid numbers."}), 400
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": f"Invalid data format: {str(e)}"}), 400
     except Exception as e:
         print(f"Prediction error: {e}")
-        return jsonify({"error": "An unexpected error occurred during prediction."}), 500
+        return jsonify({"error": "Unexpected error during prediction"}), 500
 # -------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
