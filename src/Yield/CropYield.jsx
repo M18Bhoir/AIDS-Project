@@ -142,7 +142,7 @@ const CropYield = () => {
           {prediction && (
             <div className="prediction">
               <h2>Predicted Yield:</h2>
-              <h3>{prediction}</h3>
+              <h3>{prediction} (hg/ha)</h3>
             </div>
           )}
         </div>
